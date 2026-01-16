@@ -1,239 +1,451 @@
 from tkinter import *
 
 root = Tk()
-root.geometry("1000x800")
+root.geometry("1500x900")
+root.title("Информация об устройствах")
 
-kamera_image = PhotoImage(file="im/kamera1.png")
-kamera_image2 = PhotoImage(file="im/kamera2.png")
-mk_image = PhotoImage(file="im/arduino.png")
-mk_image2 = PhotoImage(file="im/stm.png")
-dd_image = PhotoImage(file="im/dd1.png")
-dd_image2 = PhotoImage(file="im/dd2.png")
-termo_image = PhotoImage(file="im/termo1.png")
-termo_image2 = PhotoImage(file="im/termo2.png")
+zamok_image = PhotoImage(file="im/zamok.png")
+lampo4ka_image = PhotoImage(file="im/lampo4ka.png")
+sis_image = PhotoImage(file="im/sis.otop.png")
+poliv_image = PhotoImage(file="im/poliv.png")
+zamok_image2 = PhotoImage(file="im/zamok2.png")
+lampo4ka_image2 = PhotoImage(file="im/lampo4ka2.png")
+sis_image2 = PhotoImage(file="im/sis2.png")
+poliv_image2 = PhotoImage(file="im/poliv2.png")
 
-def show_image(image):
-    new_window = Toplevel(root)
-    new_window.geometry("1920x1080")
-    image_label = Label(new_window, image=image)
-    image_label.pack(expand=True)
+zamok_spec1 = """ФУНКЦИИ ЗАМКА:
+Бесключевой доступ: Открытие с помощью отпечатка пальца, пин-кода, RFID-карты/брелка.
 
-def show_camera_image():
-    show_image(kamera_image)
+Удаленное управление и мониторинг: Проверка статуса замка (открыт/закрыт), открытие/блокировка из приложения. Важно: Удаленное открытие обычно требует Wi-Fi/Zigbee-модуля.
 
-def show_camera_image2():
-    show_image(kamera_image2)
+Выдача временных и гостевых ключей: Создание виртуальных ключей для гостей, курьеров или домработницы с ограничением по времени или количеству использований.
 
-def show_mk_image():
-    show_image(mk_image)
+Журнал событий: Подробная история всех событий (кто, когда и каким способом открыл дверь).
 
-def show_mk_image2():
-    show_image(mk_image2)
+Голосовое управление: Интеграция с умным домом для команд: "Алиса, открой входную дверь" (чаще работает как сценарий на снятие с охраны, а не прямое открытие).
 
-def show_dd_image():
-    show_image(dd_image)
+Автоматическое запирание: Функция авто-блокировки через заданное время после открытия.
 
-def show_dd_image2():
-    show_image(dd_image2)
+Сигнализация: Активация звукового сигнала при попытке взлома, неверном вводе кода или принудительном открытии.
 
-def show_termo_image():
-    show_image(termo_image)
+Интеграция в сценарии умного дома:
 
-def show_termo_image2():
-    show_image(termo_image2)
+"Я ушел" → закрытие замка, выключение света, отключение розеток.
 
-def show_specifications(device_type, text):
-    spec_window = Toplevel(root)
-    spec_window.title(f"Характеристики - {device_type}")
-    spec_window.geometry("500x300")
+"Добро пожаловать" → открытие двери по отпечатку → включение света в прихожей и коридоре.
 
-    text_frame = Frame(spec_window)
-    text_frame.pack(fill=BOTH, expand=True, padx=10, pady=10)
+Резервное питание: Возможность открыть дверь с помощью power bank при разряженных батарейках."""
 
-    text_widget = Text(text_frame, wrap=WORD, font=("Arial", 11))
-    scrollbar = Scrollbar(text_frame, command=text_widget.yview)
-    text_widget.configure(yscrollcommand=scrollbar.set)
+lampo4ka_spec1 = """ФУНКЦИИ ЛАМПОЧКИ:
+ Удаленное включение/выключение: Управляйте светом из любого места через смартфон.
 
-    text_widget.pack(side=LEFT, fill=BOTH, expand=True)
-    scrollbar.pack(side=RIGHT, fill=Y)
+Регулировка яркости: Плавное изменение яркости от 1% до 100% для создания нужной атмосферы.
 
-    text_widget.insert(1.0, text)
-    text_widget.config(state=DISABLED)
-    Button(spec_window, text="Закрыть", command=spec_window.destroy).pack(pady=10)
+Изменение цветовой температуры: Настройка света от теплого желтоватого (для отдыха) до холодного белого (для концентрации).
 
-camera_spec = """ХАРАКТЕРИСТИКИ КАМЕРЫ:
- высокая разрешающая способность, 30 кадров в секунду."""
+Смена цвета (RGB-модели): Создание цветной подсветки для вечеринок, праздников или выделения зон в интерьере.
 
-mk_spec = """ХАРАКТЕРИСТИКИ МИКРОКОНТРОЛЛЕРА:
- Arduino: 16 МГц, 32 КБ памяти, множество функций."""
+Голосовое управление: Включение, выключение и настройка командой голоса через Алису, Siri, Google Assistant и др.
 
-dd_spec = """ХАРАКТЕРИСТИКИ ДАТЧИКА ДВИЖЕНИЯ:
- 10 метров обнаружения, с возможностью настройки."""
+Расписание и таймеры: Автоматическое включение света в заданное время (например, утром как будильник или вечером для симуляции присутствия).
 
-termo_spec = """ХАРАКТЕРИСТИКИ ТЕРМОМЕТРА:
- диапазон температур от -20°C до 100°C."""
+Сценарии и режимы: Создание предустановок ("Чтение", "Кино", "Романтический ужин") и привязка к другим устройствам.
 
+Геолокация (Geofencing): Автоматическое включение света при вашем приближении к дому и выключение при уходе."""
 
-video_camera_spec = """ВИДЕОКАМЕРА:
+sis_spec1 = """ФУНКЦИИ СИСТЕМЫ ОТОПЛЕНИЯ:
+ Удаленное управление температурой: Изменение режима отопления с работы или из отпуска.
 
-• Назначение: Видеонаблюдение
-• Разрешение: Full HD
-• Тип: Цифровая
-• Подключение: Ethernet/Wi-Fi
-• Запись: 24/7
-• Питание: PoE/12V"""
+Гибкое программирование по расписанию: Установка разной температуры для разных дней недели и времени суток (ночью прохладнее, к приходу с работы — теплее).
 
-ir_camera_spec = """ИНФРАКРАСНАЯ КАМЕРА:
+Геолокационный режим (Geofencing): Система определяет, что вы выехали из дома, и переходит в экономичный режим, а при приближении — восстанавливает комфортную температуру.
 
-• Назначение: Тепловидение
-• Диапазон: 8-14 мкм
-• Дальность: до 30 м
-• Точность: ±2°C
-• Режимы: Тепловая карта
-• Питание: 12V DC"""
+Режим "Отпуск": Поддержание миниманой температуры для защиты от замерзания.
 
-arduino_spec = """ARDUINO:
+Адаптивное обучение: Некоторые модели учатся, как быстро прогревается дом, и включают котел вовремя, чтобы к вашему пробуждению было тепло.
 
-• Назначение: Прототипирование
-• Ядро: ATmega328P
-• Память: 32 КБ Flash
-• Питание: 5V/7-12V
-• Порты: 14 цифровых
-• Интерфейсы: USB, UART"""
+Погодозависимое управление: Корректировка работы системы на основе уличной температуры (предварительный нагрев при похолодании).
 
-stm_spec = """STM:
+Зональный контроль: Независимое управление температурой в разных комнатах (при наличии сервоприводов на радиаторах).
 
-• Назначение: Встраиваемые системы
-• Ядро: ARM Cortex-M
-• Память: до 1 МБ Flash
-• Питание: 3.3V
-• Скорость: до 400 МГц
-• Интерфейсы: USB, CAN, Ethernet"""
+Мониторинг и аналитика: Отслеживание расхода энергии, получение отчетов и советов по экономии."""
 
-ultrasonic_dd_spec = """УЛЬТРАЗВУКОВЫЕ ДАТЧИКИ:
+poliv_spec1 = """ФУНКЦИИ АВТОПОЛИВА:
+ Автоматический полив по расписанию: Полив в заданное время с заданной продолжительностью.
 
-• Принцип: Отражение УЗ-волн
-• Дальность: 2-400 см
-• Точность: ±1 см
-• Угол: 15-30 градусов
-• Частота: 40 кГц
-• Питание: 5V DC"""
+Интеллектуальный полив по данным с датчиков: Включение системы только при падении влажности почвы ниже установленного порога. Это ключевая функция для здоровья растений.
 
-microwave_dd_spec = """МИКРОВОЛНОВЫЕ ДАТЧИКИ:
+Погодная адаптация: Отмена или корректировка полива, если ожидается дождь (интеграция с онлайн-прогнозом) или если датчик дождя уже зафиксировал осадки.
 
-• Принцип: Допплер-эффект
-• Дальность: до 20 м
-• Частота: 5.8 ГГц
-• Проникает: сквозь стены
-• Нагрев: минимальный
-• Питание: 12V DC"""
+Гибкое зонирование: Создание отдельных программ полива для разных групп растений (например, грядки, газон, цветники, теплица), требующих разного количества воды.
 
-electronic_termo_spec = """ЭЛЕКТРОННЫЙ ТЕРМОМЕТР:
+Удаленное управление и мониторинг: Запуск/остановка полива вручную из приложения, просмотр данных с датчиков.
 
-• Тип: Цифровой
-• Диапазон: -50...+150°C
-• Точность: ±0.5°C
-• Дисплей: LCD
-• Питание: Батарея
-• Время работы: до 2 лет"""
+Капельный полив (для сада): Точечная подача воды прямо к корням, что экономит воду и предотвращает болезни листьев.
 
-mercury_termo_spec = """РТУТНЫЙ ТЕРМОМЕТР:
+Режимы полива: Возможность настраивать частоту (ежедневно, через день) и интенсивность.
 
-• Тип: Аналоговый
-• Диапазон: -35...+350°C
-• Точность: ±1°C
-• Чтение: Визуальное
-• Без питания: Да
-• Долговечность: Высокая"""
+Оповещения: Уведомления об окончании полива, обрыве линии, низком заряде батареи или аномально низкой влажности почвы.
 
-def show_camera_spec():
-    show_specifications("Камера", camera_spec)
+Экономия воды: Главный результат работы системы — сокращение расхода воды до 50% по сравнению с ручным поливом."""
 
-def show_mk_spec():
-    show_specifications("Микроконтроллер", mk_spec)
+zamok_spec2 = """ЭЛЕКТРОННЫЙ ЗАМОК:
 
-def show_dd_spec():
-    show_specifications("Датчик движения", dd_spec)
+Тип установки: Накладной (проще установить) или встроенный (более эстетичный, сложный монтаж).
 
-def show_termo_spec():
-    show_specifications("Термометр", termo_spec)
+Способы отпирания:
 
+Отпечаток пальца
 
-def show_video_camera_spec():
-    show_specifications("Видеокамера", video_camera_spec)
+Пин-код (цифровая клавиатура)
 
-def show_ir_camera_spec():
-    show_specifications("ИК-камера", ir_camera_spec)
+RFID-карта или брелок
 
-def show_arduino_spec():
-    show_specifications("Arduino", arduino_spec)
+Мобильное приложение (через Bluetooth/Wi-Fi)
 
-def show_stm_spec():
-    show_specifications("STM", stm_spec)
+Голосовые команды (через интеграцию)
 
-def show_ultrasonic_spec():
-    show_specifications("Ультразвуковые датчики", ultrasonic_dd_spec)
+Резерв: Механический ключ (обычно есть).
 
-def show_microwave_spec():
-    show_specifications("Микроволновые датчики", microwave_dd_spec)
+Стандарт связи: Bluetooth для работы вблизи, Wi-Fi или Zigbee для удаленного доступа и уведомлений.
 
-def show_electronic_termo_spec():
-    show_specifications("Электронный термометр", electronic_termo_spec)
+Автоматизация: Интеграция в сценарии умного дома (закрыть все замки по команде "Я ушел").
 
-def show_mercury_termo_spec():
-    show_specifications("Ртутный термометр", mercury_termo_spec)
+Безопасность: Защита от взлома, ложных отпечатков; журнал событий (кто и когда открыл дверь).
+
+Автономность: Работа от батареек, предупреждение о низком заряде."""
+
+lampo4ka_spec2 = """УМНАЯ ЛАМПОЧКА:
+
+Стандарт связи: Wi-Fi, Bluetooth, Zigbee или Z-Wave. Wi-Fi-лампы работают напрямую с роутером, Zigbee/Z-Wave требуют хаб (шлюз), но создают более стабильную сеть.
+
+Тип цоколя: Чаще всего E27 (стандартный) или E14 (миньон).
+
+Яркость: Измеряется в люменах (лм). Аналог 60 Вт лампы накаливания ≈ 600-800 лм.
+
+Цветовая температура: Регулируемая от теплого (2700K) до холодного белого (6500K).
+
+Цветность: Может быть монохромной (только белый) или RGB (полный спектр цветов).
+
+Управление: Через мобильное приложение, голосовые помощники (Алиса, Siri, Google Assistant), автоматизация (расписание, восход/закат).
+
+Энергоэффективность: Светодиодная (LED), низкое энергопотребление."""
+
+sis_spec2 = """СИСТЕМА ОТОПЛЕНИЯ:
+
+Центр системы: Умный термостат или контроллер котла.
+
+Управление температурой: По расписанию, вручную через приложение, по геолокации (включение при приближении).
+
+Датчики: Могут использовать внешние датчики температуры в разных комнатах для более точного контроля.
+
+Стандарт связи: Wi-Fi, Zigbee, Z-Wave.
+
+Интеграция: Работа с голосовыми помощниками и другими устройствами (например, открылись окна — отопление暂停илось).
+
+Аналитика: Отчеты о потреблении энергии, советы по экономии.
+
+Совместимость: Критически важно проверять совместимость с вашим котлом (газовый, электрический), типом системы (радиаторы, теплый пол) и напряжением."""
+
+poliv_spec2 = """АВТО ПОЛИВ РАСТЕНИЙ:
+
+Масштаб: Комнатные системы (капельницы для горшков) или садовые (шланги, разбрызгиватели, клапаны).
+
+Управление:
+
+По таймеру: Самый простой вариант.
+
+По датчикам влажности: Полив только когда почва сухая (наиболее эффективно).
+
+По погодным данным: Интеграция с онлайн-прогнозом для отмены полива в дождь.
+
+Стандарт связи: Wi-Fi, Bluetooth, RF (радиочастота) для удаленных датчиков.
+
+Автономность: Садовые системы часто работают от батарей или солнечных панелей.
+
+Конструкция:
+
+Контроллер (мозг системы)
+
+Электромагнитные клапаны (открывают/закрывают воду)
+
+Трубки/капельницы/разбрызгиватели
+
+Датчики влажности, дождя"""
+
+devices_data = {
+    "zamok": {
+        "name": "Электронный замок",
+        "image": zamok_image,
+        "spec1": zamok_spec1,
+        "spec2": zamok_spec2
+    },
+    "lampo4ka": {
+        "name": "Умная лампочка",
+        "image": lampo4ka_image,
+        "spec1": lampo4ka_spec1,
+        "spec2": lampo4ka_spec2
+    },
+    "sis": {
+        "name": "Система отопления",
+        "image": sis_image,
+        "spec1": sis_spec1,
+        "spec2": sis_spec2
+    },
+    "poliv": {
+        "name": "Авто полив растений",
+        "image": poliv_image,
+        "spec1": poliv_spec1,
+        "spec2": poliv_spec2
+    }
+}
+
+current_device = None
+selected_button = None
+icon_buttons = {}
+
+main_frame = Frame(root)
+main_frame.pack(fill=BOTH, expand=True)
+
+right_icons_frame = Frame(main_frame, width=200, bg="")
+right_icons_frame.pack(side=RIGHT, fill=Y, padx=5, pady=5)
+
+center_frame = Frame(main_frame)
+center_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=5, pady=5)
+
+display_frame = Frame(center_frame, relief=GROOVE, bd=2)
+display_frame.pack(side=TOP, fill=BOTH, expand=True)
+
+buttons_frame = Frame(center_frame)
+buttons_frame.pack(side=BOTTOM, fill=X, padx=10, pady=10)
+
+image_btn = Button(buttons_frame, text="Изображение",
+                   state=DISABLED, width=15, height=2)
+image_btn.pack(side=LEFT, padx=5, pady=10)
+
+spec_btn = Button(buttons_frame, text="Характеристики",
+                  state=DISABLED, width=15, height=2)
+spec_btn.pack(side=LEFT, padx=5, pady=10)
+
+func_btn = Button(buttons_frame, text="Функции",
+                  state=DISABLED, width=15, height=2)
+func_btn.pack(side=LEFT, padx=5, pady=10)
+
+Label(right_icons_frame, text="", font=("Arial", 14)).pack(pady=20)
+
+def reset_all_buttons():
+    for btn in icon_buttons.values():
+        btn.config(bg="white", relief=RAISED)
+
+def select_button(button):
+    global selected_button
+
+    if selected_button:
+        selected_button.config(bg="white", relief=RAISED)
+
+    button.config(bg="lightblue", relief=SUNKEN, fg="white")
+    selected_button = button
+
+def create_right_icon(parent, device_key, text, image):
+    frame = Frame(parent, bg="")
+    frame.pack(pady=15)
+
+    icon = image.subsample(4, 4)
+
+    tooltip = None
+    tooltip_timer = None
+
+    def on_enter(event):
+        if btn != selected_button:
+            btn.config(bg="lightblue", relief=SUNKEN)
+
+        nonlocal tooltip_timer
+        if tooltip_timer is None:
+            tooltip_timer = root.after(500, show_tooltip)
+
+    def on_leave(event):
+        if btn != selected_button:
+            btn.config(bg="white", relief=RAISED)
+        else:
+            btn.config(bg="lightblue", relief=SUNKEN, fg="white")
+
+        nonlocal tooltip_timer
+        if tooltip_timer:
+            root.after_cancel(tooltip_timer)
+            tooltip_timer = None
+
+        nonlocal tooltip
+        if tooltip:
+            tooltip.destroy()
+            tooltip = None
+
+    def show_tooltip():
+        nonlocal tooltip, tooltip_timer
+        tooltip_timer = None
+
+        x = btn.winfo_rootx()
+        y = btn.winfo_rooty() + btn.winfo_height()
+
+        tooltip = Toplevel(root)
+        tooltip.wm_overrideredirect(True)
+        tooltip.wm_geometry(f"+{x}+{y}")
+
+        tooltip_frame = Frame(tooltip, bg="", relief=SOLID, borderwidth=1)
+        tooltip_frame.pack()
+
+        device_name = devices_data[device_key]["name"]
+        label = Label(tooltip_frame, text=device_name,
+                      bg="white", font=("Arial", 10, "bold"),
+                      padx=10, pady=5)
+        label.pack()
+
+        tooltip.wm_attributes("-topmost", True)
+
+    def on_click():
+        nonlocal tooltip
+        if tooltip:
+            tooltip.destroy()
+            tooltip = None
+
+        select_button(btn)
+
+        select_device(device_key)
+
+    btn = Button(frame, image=icon, text=text, compound=TOP,
+                 command=on_click,
+                 width=120, height=120, bg="white", relief=RAISED,
+                 font=("Arial", 10, "bold"), cursor="hand2")
+    btn.image = icon
+    btn.pack()
+
+    btn.bind("<Enter>", on_enter)
+    btn.bind("<Leave>", on_leave)
+
+    icon_buttons[device_key] = btn
+
+    return btn
+
+def show_image_content():
+    if current_device:
+        for widget in display_frame.winfo_children():
+            widget.destroy()
+
+        content_frame = Frame(display_frame)
+        content_frame.pack(fill=BOTH, expand=True, padx=20, pady=20)
+
+        name_label = Label(content_frame, text=devices_data[current_device]["name"],
+                           font=("Arial", 18, "bold"))
+        name_label.pack(side=TOP, pady=(0, 20))
+
+        img_label = Label(content_frame, image=devices_data[current_device]["image"])
+        img_label.pack(expand=True)
+
+def show_spec_content():
+    if current_device:
+        for widget in display_frame.winfo_children():
+            widget.destroy()
+
+        content_frame = Frame(display_frame)
+        content_frame.pack(fill=BOTH, expand=True, padx=20, pady=20)
+
+        name_label = Label(content_frame, text=devices_data[current_device]["name"],
+                           font=("Arial", 18, "bold"))
+        name_label.pack(side=TOP, pady=(0, 20))
+
+        text_frame = Frame(content_frame)
+        text_frame.pack(fill=BOTH, expand=True)
+
+        text_widget = Text(text_frame, wrap=WORD, font=("Arial", 11))
+        scrollbar = Scrollbar(text_frame, command=text_widget.yview)
+        text_widget.configure(yscrollcommand=scrollbar.set)
+
+        text_widget.pack(side=LEFT, fill=BOTH, expand=True)
+        scrollbar.pack(side=RIGHT, fill=Y)
+
+        text_widget.insert(1.0, devices_data[current_device]["spec2"])
+        text_widget.config(state=DISABLED)
+
+def show_func_content():
+    if current_device:
+        for widget in display_frame.winfo_children():
+            widget.destroy()
+
+        content_frame = Frame(display_frame)
+        content_frame.pack(fill=BOTH, expand=True, padx=20, pady=20)
+
+        name_label = Label(content_frame, text=devices_data[current_device]["name"],
+                           font=("Arial", 18, "bold"))
+        name_label.pack(side=TOP, pady=(0, 20))
+
+        text_frame = Frame(content_frame)
+        text_frame.pack(fill=BOTH, expand=True)
+
+        text_widget = Text(text_frame, wrap=WORD, font=("Arial", 11))
+        scrollbar = Scrollbar(text_frame, command=text_widget.yview)
+        text_widget.configure(yscrollcommand=scrollbar.set)
+
+        text_widget.pack(side=LEFT, fill=BOTH, expand=True)
+        scrollbar.pack(side=RIGHT, fill=Y)
+
+        text_widget.insert(1.0, devices_data[current_device]["spec1"])
+        text_widget.config(state=DISABLED)
+
+def clear_display():
+    for widget in display_frame.winfo_children():
+        widget.destroy()
+
+    image_btn.config(state=DISABLED)
+    spec_btn.config(state=DISABLED)
+    func_btn.config(state=DISABLED)
+
+def select_device(device_key):
+    global current_device
+    current_device = device_key
+
+    image_btn.config(state=NORMAL)
+    spec_btn.config(state=NORMAL)
+    func_btn.config(state=NORMAL)
+
+    show_image_content()
+
+image_btn.config(command=show_image_content)
+spec_btn.config(command=show_spec_content)
+func_btn.config(command=show_func_content)
+
+create_right_icon(right_icons_frame, "zamok", "", zamok_image2)
+create_right_icon(right_icons_frame, "lampo4ka", "", lampo4ka_image2)
+create_right_icon(right_icons_frame, "sis", "", sis_image2)
+create_right_icon(right_icons_frame, "poliv", "", poliv_image2)
 
 mainmenu = Menu(root)
 root.config(menu=mainmenu)
 
 filemenu = Menu(mainmenu, tearoff=0)
-filemenu.add_command(label="Сохранить...")
-filemenu.add_command(label="Выход")
+filemenu.add_command(label="Открыть")
+filemenu.add_command(label="Сохранить")
+filemenu.add_command(label="Выход", command=root.quit)
 
-picturemenu = Menu(mainmenu, tearoff=0)
-picturemenu.add_command(label="Камера", command=show_camera_image)
-picturemenu.add_command(label="Микроконтроллер", command=show_mk_image)
-picturemenu.add_command(label="Датчик движения", command=show_dd_image)
-picturemenu.add_command(label="Термометр", command=show_termo_image)
+devices_menu = Menu(mainmenu, tearoff=0)
+devices_menu.add_command(label="Эл. замок",
+                         command=lambda: [select_button(icon_buttons["zamok"]), select_device("zamok")])
+devices_menu.add_command(label="Умная лампочка",
+                         command=lambda: [select_button(icon_buttons["lampo4ka"]), select_device("lampo4ka")])
+devices_menu.add_command(label="Система отопления",
+                         command=lambda: [select_button(icon_buttons["sis"]), select_device("sis")])
+devices_menu.add_command(label="Авто полив растений",
+                         command=lambda: [select_button(icon_buttons["poliv"]), select_device("poliv")])
 
-specificationsmenu = Menu(mainmenu, tearoff=0)
-specificationsmenu.add_command(label="Камера", command=show_camera_spec)
-specificationsmenu.add_command(label="Микроконтроллер", command=show_mk_spec)
-specificationsmenu.add_command(label="Датчик движения", command=show_dd_spec)
-specificationsmenu.add_command(label="Термометр", command=show_termo_spec)
-
-functionsmenu = Menu(mainmenu, tearoff=0)
-
-functionsmenu2 = Menu(functionsmenu, tearoff=0)
-functionsmenu3 = Menu(functionsmenu, tearoff=0)
-functionsmenu4 = Menu(functionsmenu, tearoff=0)
-functionsmenu5 = Menu(functionsmenu, tearoff=0)
-
-functionsmenu2.add_command(label="Видеокамера", command=show_video_camera_spec)
-functionsmenu2.add_separator()
-functionsmenu2.add_command(label="Инфракрасная камера", command=show_ir_camera_spec)
-
-functionsmenu3.add_command(label="Arduino", command=show_arduino_spec)
-functionsmenu3.add_separator()
-functionsmenu3.add_command(label="STM", command=show_stm_spec)
-
-functionsmenu4.add_command(label="Ультразвуковые", command=show_ultrasonic_spec)
-functionsmenu4.add_separator()
-functionsmenu4.add_command(label="Микроволновые", command=show_microwave_spec)
-
-functionsmenu5.add_command(label="Электронный", command=show_electronic_termo_spec)
-functionsmenu5.add_separator()
-functionsmenu5.add_command(label="Ртутный", command=show_mercury_termo_spec)
-
-functionsmenu.add_cascade(label="Камера", menu=functionsmenu2)
-functionsmenu.add_cascade(label="Микроконтроллер", menu=functionsmenu3)
-functionsmenu.add_cascade(label="Датчик движения", menu=functionsmenu4)
-functionsmenu.add_cascade(label="Термометр", menu=functionsmenu5)
+instruction_menu = Menu(mainmenu, tearoff=0)
+instruction_menu.add_command(label="Эл. замок")
+instruction_menu.add_command(label="Умная лампочка")
+instruction_menu.add_command(label="Система отопления")
+instruction_menu.add_command(label="Авто полив растений")
 
 mainmenu.add_cascade(label="Файл", menu=filemenu)
-mainmenu.add_cascade(label="Изображение", menu=picturemenu)
-mainmenu.add_cascade(label="Характеристики", menu=specificationsmenu)
-mainmenu.add_cascade(label="Функции", menu=functionsmenu)
+mainmenu.add_cascade(label="Устройства", menu=devices_menu)
+mainmenu.add_cascade(label="Инструкция для пользователя", menu=instruction_menu)
+mainmenu.add_cascade(label="Помощь")
+
+clear_display()
 
 root.mainloop()
-
